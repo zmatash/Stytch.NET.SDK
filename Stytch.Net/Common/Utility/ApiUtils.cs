@@ -39,7 +39,7 @@ public static class ApiUtils
             return result;
         }
 
-        result.Error = jsonObj.ToObject<ApiErrorInfo>();
+        result.ApiErrorInfo = jsonObj.ToObject<ApiErrorInfo>();
         return result;
     }
 }
