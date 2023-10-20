@@ -24,10 +24,10 @@ public partial class StytchService
             _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
             StytchResult<CreateUserResponse> result = new()
             {
-                Error = new Error
+                StatusCode = 500,
+                ApiErrorInfo = new ApiErrorInfo
                 {
-                    StatusCode = 500,
-                    ErrorMessage = $"Internal Server Error: {ex}"
+                    ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
                 }
             };
             return result;
@@ -50,13 +50,29 @@ public partial class StytchService
             _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
             StytchResult<SearchUsersResponse> result = new()
             {
-                Error = new Error
+                StatusCode = 500,
+                ApiErrorInfo = new ApiErrorInfo
                 {
-                    StatusCode = 500,
-                    ErrorMessage = $"Internal Server Error: {ex}"
+                    ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
                 }
             };
             return result;
         }
+    }
+
+    public async Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginated(
+        SearchUsersParameters newSearchUsersParams)
+    {
+        List<StytchResult<SearchUsersResponse>> pages = new();
+        string? nextCursor;
+
+        do
+        {
+            StytchResult<SearchUsersResponse> page = await SearchUsers(newSearchUsersParams);
+            nextCursor = page.Payload?.ResultsMetaData.NextCursor;
+            pages.Add(page);
+        } while (!string.IsNullOrEmpty(nextCursor));
+
+        return pages;
     }
 }
