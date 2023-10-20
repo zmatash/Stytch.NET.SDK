@@ -120,12 +120,25 @@ public class UserTests : BaseTest
             }
         };
         StytchResult<UpdateUserResponse> result = await StytchService.UpdateUserAsync(param, TestUser.UserId);
-        Console.WriteLine("DebugTest" + result);
 
         Name? newName = result.Payload?.User?.Name;
 
         Assert.That(newName?.FirstName, Is.EqualTo("John"));
         Assert.That(newName?.MiddleName, Is.EqualTo("Henry"));
         Assert.That(newName?.LastName, Is.EqualTo("Smith"));
+    }
+
+    [Test]
+    [Order(6)]
+    public async Task TestExchangePrimaryFactor()
+    {
+        ExchangePrimaryFactorParameters param = new()
+        {
+            EmailAddress = "HueHue@gmail.com"
+        };
+        StytchResult<ExchangePrimaryFactorResponse> result =
+            await StytchService.ExchangePrimaryFactorAsync(param, TestUser.UserId);
+
+        Assert.That(result.Payload?.User?.Emails?[0].EmailValue, Is.EqualTo("HueHue@gmail.com"));
     }
 }

@@ -11,4 +11,8 @@ public interface IStytchService
     Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginatedAsync(SearchUsersParameters parameters);
     Task<StytchResult<GetUserResponse>> GetUserAsync(string parameters);
     Task<StytchResult<UpdateUserResponse>> UpdateUserAsync(UpdateUserParameters parameters, string? userId);
+
+    Task<StytchResult<ExchangePrimaryFactorResponse>> ExchangePrimaryFactorAsync(
+        ExchangePrimaryFactorParameters parameters,
+        string? userId);
 }
