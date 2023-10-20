@@ -41,21 +41,11 @@ public partial class StytchService
                 ApiUtils.CreateRequest(HttpMethod.Post, BaseApi + "/search", newSearchUsersParams, Config);
             HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
             string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            StytchResult<SearchUsersResponse> result = ApiUtils.CreateStytchResult<SearchUsersResponse>(response, json);
-            return result;
+            return ApiUtils.CreateStytchResult<SearchUsersResponse>(response, json);
         }
         catch (Exception ex)
         {
-            _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
-            StytchResult<SearchUsersResponse> result = new()
-            {
-                StatusCode = 500,
-                ApiErrorInfo = new ApiErrorInfo
-                {
-                    ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
-                }
-            };
-            return result;
+            return HandleException<SearchUsersResponse>(ex);
         }
     }
 
@@ -86,20 +76,24 @@ public partial class StytchService
                 Config);
             HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
             string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            StytchResult<GetUserResponse> result = ApiUtils.CreateStytchResult<GetUserResponse>(response, json);
-            return result;
+            return ApiUtils.CreateStytchResult<GetUserResponse>(response, json);
         }
         catch (Exception ex)
         {
-            _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
-            return new StytchResult<GetUserResponse>
-            {
-                StatusCode = 500,
-                ApiErrorInfo = new ApiErrorInfo
-                {
-                    ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
-                }
-            };
+            return HandleException<GetUserResponse>(ex);
         }
+    }
+
+    private StytchResult<T> HandleException<T>(Exception ex) where T : IStytchResponse
+    {
+        _logger.Log(LogLevel.Error, "Error: {Ex}", ex);
+        return new StytchResult<T>
+        {
+            StatusCode = 500,
+            ApiErrorInfo = new ApiErrorInfo
+            {
+                ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
+            }
+        };
     }
 }
