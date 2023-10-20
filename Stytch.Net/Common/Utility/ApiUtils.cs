@@ -8,7 +8,8 @@ namespace Stytch.Net.Common.Utility;
 
 public static class ApiUtils
 {
-    public static HttpRequestMessage CreateRequest<T>(HttpMethod method, string url, T body, StytchConfiguration config)
+    public static HttpRequestMessage CreateRequest<T>(HttpMethod method, string url, T body,
+        StytchConfiguration config)
     {
         HttpRequestMessage request = new(method, url);
 

@@ -4,7 +4,7 @@ using Stytch.Net.Models;
 
 namespace Stytch.Net.StytchService.Models.Responses;
 
-public record CreateUserResponse : BaseResponse
+public record CreateUserResponse : IStytchResponse
 {
     [JsonProperty("user_id")] public string UserId { get; set; } = null!;
     [JsonProperty("user")] public User? User { get; set; }
