@@ -17,7 +17,7 @@ public class UserTests : BaseTest
     [Order(1)]
     public async Task TestCreateUser()
     {
-        StytchResult<CreateUserResponse> result = await StytchService.CreateUser(new CreateUserParameters
+        StytchResult<CreateUserResponse> result = await StytchService.CreateUserAsync(new CreateUserParameters
         {
             Email = TestUser.Email,
             Name = new Name
@@ -57,7 +57,7 @@ public class UserTests : BaseTest
             throw new NoNullAllowedException(
                 "TestUser does not have ID assigned, something went wrong with TestCreateUser.");
 
-        StytchResult<SearchUsersResponse> result = await StytchService.SearchUsers(new SearchUsersParameters
+        StytchResult<SearchUsersResponse> result = await StytchService.SearchUsersAsync(new SearchUsersParameters
             {
                 Query = new Query
                 {
@@ -88,8 +88,8 @@ public class UserTests : BaseTest
     [Order(3)]
     public async Task TestSearchUsersPaginated()
     {
-        await StytchService.CreateUser(new CreateUserParameters {Email = TestUser2.Email});
-        List<StytchResult<SearchUsersResponse>> result = await StytchService.SearchUsersPaginated(
+        await StytchService.CreateUserAsync(new CreateUserParameters {Email = TestUser2.Email});
+        List<StytchResult<SearchUsersResponse>> result = await StytchService.SearchUsersPaginatedAsync(
             new SearchUsersParameters
             {
                 Limit = 1
@@ -102,7 +102,7 @@ public class UserTests : BaseTest
     [Order(4)]
     public async Task TestGetUser()
     {
-        StytchResult<GetUserResponse> result = await StytchService.GetUser(TestUser.UserId!);
+        StytchResult<GetUserResponse> result = await StytchService.GetUserAsync(TestUser.UserId!);
         Assert.That(result.Payload?.UserId, Is.EqualTo(TestUser.UserId));
     }
 
@@ -119,7 +119,7 @@ public class UserTests : BaseTest
                 LastName = "Smith"
             }
         };
-        StytchResult<UpdateUserResponse> result = await StytchService.UpdateUser(param, TestUser.UserId);
+        StytchResult<UpdateUserResponse> result = await StytchService.UpdateUserAsync(param, TestUser.UserId);
         Console.WriteLine("DebugTest" + result);
 
         Name? newName = result.Payload?.User?.Name;

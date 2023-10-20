@@ -6,9 +6,9 @@ namespace Stytch.Net.StytchService.Service;
 
 public interface IStytchService
 {
-    Task<StytchResult<CreateUserResponse>> CreateUser(CreateUserParameters parameters);
-    Task<StytchResult<SearchUsersResponse>> SearchUsers(SearchUsersParameters parameters);
-    Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginated(SearchUsersParameters parameters);
-    Task<StytchResult<GetUserResponse>> GetUser(string parameters);
-    Task<StytchResult<UpdateUserResponse>> UpdateUser(UpdateUserParameters parameters, string? userId);
+    Task<StytchResult<CreateUserResponse>> CreateUserAsync(CreateUserParameters parameters);
+    Task<StytchResult<SearchUsersResponse>> SearchUsersAsync(SearchUsersParameters parameters);
+    Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginatedAsync(SearchUsersParameters parameters);
+    Task<StytchResult<GetUserResponse>> GetUserAsync(string parameters);
+    Task<StytchResult<UpdateUserResponse>> UpdateUserAsync(UpdateUserParameters parameters, string? userId);
 }
