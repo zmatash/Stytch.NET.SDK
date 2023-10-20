@@ -6,9 +6,9 @@ namespace Stytch.Net.StytchService.Models.Responses;
 
 public record CreateUserResponse : IStytchResponse
 {
-    [JsonProperty("user_id")] public string UserId { get; set; } = null!;
+    [JsonProperty("user_id")] public string? UserId { get; set; }
     [JsonProperty("user")] public User? User { get; set; }
-    [JsonProperty("email_id")] public string EmailId { get; set; } = null!;
-    [JsonProperty("phone_id")] public string PhoneId { get; set; } = null!;
-    [JsonProperty("status")] public string Status { get; set; } = null!;
+    [JsonProperty("email_id")] public string? EmailId { get; set; }
+    [JsonProperty("phone_id")] public string? PhoneId { get; set; }
+    [JsonProperty("status")] public string? Status { get; set; }
 }

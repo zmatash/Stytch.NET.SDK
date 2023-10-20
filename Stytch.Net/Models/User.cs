@@ -6,7 +6,7 @@ public record User
 {
     [JsonProperty("user_id")] public string? UserId { get; set; }
     [JsonProperty("name")] public Name? Name { get; set; }
-    [JsonProperty("emails")] public Email[] Emails { get; set; } = null!;
+    [JsonProperty("emails")] public Email[]? Emails { get; set; }
     [JsonProperty("phone_numbers")] public PhoneNumber[]? PhoneNumbers { get; set; }
     [JsonProperty("providers")] public Provider[]? Providers { get; set; }
 
