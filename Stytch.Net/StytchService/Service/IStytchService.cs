@@ -8,4 +8,5 @@ public interface IStytchService
 {
     Task<StytchResult<CreateUserResponse>> CreateUser(CreateUserParameters newUserParams);
     Task<StytchResult<SearchUsersResponse>> SearchUsers(SearchUsersParameters newUserParams);
+    Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginated(SearchUsersParameters newUserParams);
 }

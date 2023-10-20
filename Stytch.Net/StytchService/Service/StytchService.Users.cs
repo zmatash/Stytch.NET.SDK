@@ -63,11 +63,14 @@ public partial class StytchService
         SearchUsersParameters newSearchUsersParams)
     {
         List<StytchResult<SearchUsersResponse>> pages = new();
-        string? nextCursor;
+        StytchResult<SearchUsersResponse> page = await SearchUsers(newSearchUsersParams).ConfigureAwait(false);
+        pages.Add(page);
+        string? nextCursor = page.Payload?.ResultsMetaData.NextCursor;
 
         do
         {
-            StytchResult<SearchUsersResponse> page = await SearchUsers(newSearchUsersParams).ConfigureAwait(false);
+            newSearchUsersParams.Cursor = nextCursor;
+            page = await SearchUsers(newSearchUsersParams).ConfigureAwait(false);
             nextCursor = page.Payload?.ResultsMetaData.NextCursor;
             pages.Add(page);
         } while (!string.IsNullOrEmpty(nextCursor));
