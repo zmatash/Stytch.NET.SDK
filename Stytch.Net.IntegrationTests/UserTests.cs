@@ -105,4 +105,27 @@ public class UserTests : BaseTest
         StytchResult<GetUserResponse> result = await StytchService.GetUser(TestUser.UserId!);
         Assert.That(result.Payload?.UserId, Is.EqualTo(TestUser.UserId));
     }
+
+    [Test]
+    [Order(5)]
+    public async Task TestUpdateUser()
+    {
+        UpdateUserParameters param = new()
+        {
+            Name = new Name
+            {
+                FirstName = "John",
+                MiddleName = "Henry",
+                LastName = "Smith"
+            }
+        };
+        StytchResult<UpdateUserResponse> result = await StytchService.UpdateUser(param, TestUser.UserId);
+        Console.WriteLine("DebugTest" + result);
+
+        Name? newName = result.Payload?.User?.Name;
+
+        Assert.That(newName?.FirstName, Is.EqualTo("John"));
+        Assert.That(newName?.MiddleName, Is.EqualTo("Henry"));
+        Assert.That(newName?.LastName, Is.EqualTo("Smith"));
+    }
 }
