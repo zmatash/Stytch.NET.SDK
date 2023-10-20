@@ -14,6 +14,7 @@ public class UserTests : BaseTest
     private TestUser testUder { get; set; }
 
     [Test]
+    [Order(1)]
     public async Task TestCreateUser()
     {
         StytchResult<CreateUserResponse> result = await StytchService.CreateUser(new CreateUserParameters
@@ -49,6 +50,7 @@ public class UserTests : BaseTest
     }
 
     [Test]
+    [Order(2)]
     public async Task TestSearchUsersByUserId()
     {
         if (TestUser.UserId == null)
@@ -83,6 +85,7 @@ public class UserTests : BaseTest
     }
 
     [Test]
+    [Order(3)]
     public async Task TestSearchUsersPaginated()
     {
         await StytchService.CreateUser(new CreateUserParameters {Email = TestUser2.Email});
@@ -93,5 +96,13 @@ public class UserTests : BaseTest
             });
 
         Assert.That(result, Has.Count.EqualTo(2));
+    }
+
+    [Test]
+    [Order(4)]
+    public async Task TestGetUser()
+    {
+        StytchResult<GetUserResponse> result = await StytchService.GetUser(TestUser.UserId!);
+        Assert.That(result.Payload?.UserId, Is.EqualTo(TestUser.UserId));
     }
 }
