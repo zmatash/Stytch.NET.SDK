@@ -9,6 +9,7 @@ namespace Stytch.Net.IntegrationTests.Resources;
 public abstract class BaseTest
 {
     protected TestUser TestUser = new();
+    protected TestUser TestUser2 = new();
     private IServiceProvider ServiceProvider { get; set; } = null!;
     protected IStytchService StytchService { get; private set; } = null!;
     private ApiFuncs ApiTool { get; set; } = null!;

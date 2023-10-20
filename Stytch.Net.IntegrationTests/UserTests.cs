@@ -81,4 +81,17 @@ public class UserTests : BaseTest
         Assert.That(users[0].Emails, Has.Length.EqualTo(1));
         Assert.That(users[0].Emails[0].EmailValue, Is.EqualTo(TestUser.Email));
     }
+
+    [Test]
+    public async Task TestSearchUsersPaginated()
+    {
+        await StytchService.CreateUser(new CreateUserParameters {Email = TestUser2.Email});
+        List<StytchResult<SearchUsersResponse>> result = await StytchService.SearchUsersPaginated(
+            new SearchUsersParameters
+            {
+                Limit = 1
+            });
+
+        Assert.That(result, Has.Count.EqualTo(2));
+    }
 }
