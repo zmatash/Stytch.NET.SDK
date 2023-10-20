@@ -77,4 +77,29 @@ public partial class StytchService
 
         return pages;
     }
+
+    public async Task<StytchResult<GetUserResponse>> GetUser(string userId)
+    {
+        try
+        {
+            HttpRequestMessage request = ApiUtils.CreateRequest(HttpMethod.Get, $"{BaseApi}/{userId}", "",
+                Config);
+            HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
+            string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            StytchResult<GetUserResponse> result = ApiUtils.CreateStytchResult<GetUserResponse>(response, json);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
+            return new StytchResult<GetUserResponse>
+            {
+                StatusCode = 500,
+                ApiErrorInfo = new ApiErrorInfo
+                {
+                    ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
+                }
+            };
+        }
+    }
 }
