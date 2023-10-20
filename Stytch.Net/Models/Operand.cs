@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Stytch.Net.Common.Utility;
 
 namespace Stytch.Net.Models;
 
@@ -38,7 +38,7 @@ public class Operand
     public class UserIdValue : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "user_id";
-        [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
+        [JsonProperty("filter_value")] public string?[] FilterValue { get; set; }
     }
 
     public class FullNameFuzzyValue
@@ -68,10 +68,14 @@ public class Operand
             get => _filterValue;
             set
             {
-                Regex regex = new(@"^\+[1-9]\d{1,14}$");
-                if (value != null && value.Any(phoneNumber => !regex.IsMatch(phoneNumber)))
-                    throw new ArgumentException("Invalid phone number format. Must be in E.164 format.");
-                _filterValue = value;
+                if (value != null)
+                {
+                    foreach (string phoneNumber in value)
+                        if (!ValidationHelpers.IsValidPhoneNumberFormat(phoneNumber))
+                            throw new ArgumentException("Invalid phone number format. Must be in E.164 format.");
+
+                    _filterValue = value;
+                }
             }
         }
     }
