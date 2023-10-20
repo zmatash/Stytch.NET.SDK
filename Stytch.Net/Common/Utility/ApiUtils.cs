@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Stytch.Net.Models;
 
 namespace Stytch.Net.Common.Utility;
@@ -23,15 +24,22 @@ public static class ApiUtils
     public static StytchResult<TSuccess> CreateStytchResult<TSuccess>(HttpResponseMessage response, string json)
         where TSuccess : class, IStytchResponse
     {
+        // Status_code and requestId are assigned to root of StytchResult object.
+        // Remove from json so they aren't assigned to the error or payload, avoid duplication.
         StytchResult<TSuccess> result = new();
+        JObject jsonObj = JObject.Parse(json);
+        result.RequestId = (string) jsonObj["request_id"]!;
+        result.StatusCode = (int) jsonObj["status_code"]!;
+        jsonObj.Remove("status_code");
+        jsonObj.Remove("request_id");
+
         if (response.IsSuccessStatusCode)
         {
-            result.Success = JsonConvert.DeserializeObject<TSuccess>(json);
+            result.Payload = jsonObj.ToObject<TSuccess>();
             return result;
         }
 
-        Error errorBody = JsonConvert.DeserializeObject<Error>(json)!;
-        result.Error = errorBody;
+        result.Error = jsonObj.ToObject<ApiErrorInfo>();
         return result;
     }
 }
