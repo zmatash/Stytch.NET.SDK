@@ -14,15 +14,15 @@ public partial class StytchService
         try
         {
             HttpRequestMessage request = ApiUtils.CreateRequest(HttpMethod.Post, BaseApi, newUserParams, Config);
-            HttpResponseMessage response = await HttpClient.SendAsync(request);
-            string json = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
+            string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             StytchResult<CreateUserResponse> result = ApiUtils.CreateStytchResult<CreateUserResponse>(response, json);
             return result;
         }
         catch (Exception ex)
         {
             _logger.Log(LogLevel.Error, "An error occurred while creating a user: {Ex}", ex);
-            StytchResult<CreateUserResponse> result = new()
+            return new StytchResult<CreateUserResponse>
             {
                 StatusCode = 500,
                 ApiErrorInfo = new ApiErrorInfo
@@ -30,7 +30,6 @@ public partial class StytchService
                     ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
                 }
             };
-            return result;
         }
     }
 
@@ -40,8 +39,8 @@ public partial class StytchService
         {
             HttpRequestMessage request =
                 ApiUtils.CreateRequest(HttpMethod.Post, BaseApi + "/search", newSearchUsersParams, Config);
-            HttpResponseMessage response = await HttpClient.SendAsync(request);
-            string json = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
+            string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             StytchResult<SearchUsersResponse> result = ApiUtils.CreateStytchResult<SearchUsersResponse>(response, json);
             return result;
         }
@@ -68,7 +67,7 @@ public partial class StytchService
 
         do
         {
-            StytchResult<SearchUsersResponse> page = await SearchUsers(newSearchUsersParams);
+            StytchResult<SearchUsersResponse> page = await SearchUsers(newSearchUsersParams).ConfigureAwait(false);
             nextCursor = page.Payload?.ResultsMetaData.NextCursor;
             pages.Add(page);
         } while (!string.IsNullOrEmpty(nextCursor));
