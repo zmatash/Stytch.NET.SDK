@@ -84,6 +84,23 @@ public partial class StytchService
         }
     }
 
+    public async Task<StytchResult<UpdateUserResponse>> UpdateUser(UpdateUserParameters parameters, string? userId)
+    {
+        try
+        {
+            HttpRequestMessage request = ApiUtils.CreateRequest(HttpMethod.Put, $"{BaseApi}/{userId}", parameters,
+                Config);
+
+            HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
+            string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return ApiUtils.CreateStytchResult<UpdateUserResponse>(response, json);
+        }
+        catch (Exception ex)
+        {
+            return HandleException<UpdateUserResponse>(ex);
+        }
+    }
+
     private StytchResult<T> HandleException<T>(Exception ex) where T : IStytchResponse
     {
         _logger.Log(LogLevel.Error, "Error: {Ex}", ex);

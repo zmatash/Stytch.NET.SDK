@@ -10,4 +10,5 @@ public interface IStytchService
     Task<StytchResult<SearchUsersResponse>> SearchUsers(SearchUsersParameters parameters);
     Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginated(SearchUsersParameters parameters);
     Task<StytchResult<GetUserResponse>> GetUser(string parameters);
+    Task<StytchResult<UpdateUserResponse>> UpdateUser(UpdateUserParameters parameters, string? userId);
 }
