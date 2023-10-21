@@ -13,10 +13,14 @@ public abstract record PhoneNumberProperty
         get => _phoneNumberValue;
         set
         {
-            if (!ValidationHelpers.IsValidPhoneNumberFormat(value))
+            string? formattedPhone = value?.Replace(" ", "");
+            if (formattedPhone != null && !formattedPhone.StartsWith("+"))
+                formattedPhone = $"+{formattedPhone}";
+
+            if (!ValidationHelpers.IsValidPhoneNumberFormat(formattedPhone))
                 throw new ArgumentException("Invalid phone number format. Must be in E.164 format.");
 
-            _phoneNumberValue = value;
+            _phoneNumberValue = formattedPhone;
         }
     }
 }
