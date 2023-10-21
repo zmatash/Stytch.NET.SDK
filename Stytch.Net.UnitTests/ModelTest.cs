@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Stytch.Net.Models;
+using Stytch.Net.UnitTests.Resources;
 
 namespace Stytch.Net.UnitTests;
 
@@ -27,5 +28,16 @@ public class ModelTest
         };
 
         string parameters = JsonConvert.SerializeObject(operand);
+        Assert.That(parameters, Is.EqualTo("{\"filter_name\":\"status\",\"filter_value\":\"active\"}"));
+    }
+
+    [Test]
+    public void PhoneNumberFormatTest()
+    {
+        PhoneTestRecord phoneTest = new();
+
+        Assert.DoesNotThrow(() => { phoneTest.PhoneNumberValue = phoneTest.goodNumber; });
+        Assert.DoesNotThrow(() => { phoneTest.PhoneNumberValue = phoneTest.incorrectFormat; });
+        Assert.Throws<ArgumentException>(() => { phoneTest.PhoneNumberValue = phoneTest.badNumber; });
     }
 }
