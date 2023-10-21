@@ -6,6 +6,7 @@ namespace Stytch.Net.StytchService.Service;
 
 public interface IStytchService
 {
+    // Users Endpoint
     Task<StytchResult<CreateUserResponse>> CreateUserAsync(CreateUserParameters parameters);
     Task<StytchResult<SearchUsersResponse>> SearchUsersAsync(SearchUsersParameters parameters);
     Task<List<StytchResult<SearchUsersResponse>>> SearchUsersPaginatedAsync(SearchUsersParameters parameters);
@@ -29,4 +30,13 @@ public interface IStytchService
     Task<StytchResult<DeleteInfoResponse>> DeleteUserCryptoWallet(string? cryptoWalletId);
     Task<StytchResult<DeleteInfoResponse>> DeleteUserPassword(string? passwordId);
     Task<StytchResult<DeleteInfoResponse>> DeleteUserOAuthRegistration(string? oauthId);
+
+    // Magic Links Endpoint
+    Task<StytchResult<SendMagicLinkEmailResponse>> SendMagicLinkEmailAsync(SendMagicLinkEmailParameters parameters);
+
+    Task<StytchResult<LoginOrCreateUserEmailResponse>> LoginOrCreateUserEmailAsync(
+        LoginOrCreateUserEmailParameters parameters);
+
+    Task<StytchResult<InviteByEmailResponse>> InviteByEmailAsync(InviteByEmailParameters parameters);
+    Task<StytchResult<RevokePendingInviteResponse>> RevokePendingInviteAsync(RevokePendingInviteParameters parameters);
 }

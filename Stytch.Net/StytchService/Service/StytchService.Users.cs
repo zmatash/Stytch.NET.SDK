@@ -1,7 +1,4 @@
-using Microsoft.Extensions.Logging;
 using Stytch.Net.Common;
-using Stytch.Net.Common.Utility;
-using Stytch.Net.Models;
 using Stytch.Net.StytchService.Models.Parameters;
 using Stytch.Net.StytchService.Models.Responses;
 
@@ -214,27 +211,5 @@ public partial class StytchService
         {
             return HandleException<DeleteInfoResponse>(ex);
         }
-    }
-
-    private async Task<StytchResult<T>> ExecuteAsync<T, TU>(HttpMethod method, TU parameters, string url) where T :
-        class, IStytchResponse
-    {
-        HttpRequestMessage request = ApiUtils.CreateRequest(method, url, parameters, Config);
-        HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
-        string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        return ApiUtils.CreateStytchResult<T>(response, json);
-    }
-
-    private StytchResult<T> HandleException<T>(Exception ex) where T : IStytchResponse
-    {
-        _logger.Log(LogLevel.Error, "Error: {Ex}", ex);
-        return new StytchResult<T>
-        {
-            StatusCode = 500,
-            ApiErrorInfo = new ApiErrorInfo
-            {
-                ErrorMessage = $"Internal Server ApiErrorInfo: {ex}"
-            }
-        };
     }
 }
