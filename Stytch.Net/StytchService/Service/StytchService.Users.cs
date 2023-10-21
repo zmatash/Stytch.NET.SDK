@@ -14,7 +14,7 @@ public partial class StytchService
         try
         {
             return await ExecuteAsync<CreateUserResponse, CreateUserParameters>(HttpMethod.Post, newUserParams,
-                BaseApi);
+                UsersApi);
         }
         catch (Exception ex)
         {
@@ -28,7 +28,7 @@ public partial class StytchService
         try
         {
             return await ExecuteAsync<SearchUsersResponse, SearchUsersParameters>(HttpMethod.Post, newSearchUsersParams,
-                $"{BaseApi}/search");
+                $"{UsersApi}/search");
         }
         catch (Exception ex)
         {
@@ -61,7 +61,7 @@ public partial class StytchService
     {
         try
         {
-            return await ExecuteAsync<GetUserResponse, string>(HttpMethod.Get, "", $"{BaseApi}/{userId}");
+            return await ExecuteAsync<GetUserResponse, string>(HttpMethod.Get, "", $"{UsersApi}/{userId}");
         }
         catch (Exception ex)
         {
@@ -75,7 +75,7 @@ public partial class StytchService
         try
         {
             return await ExecuteAsync<UpdateUserResponse, UpdateUserParameters>(HttpMethod.Put, parameters,
-                $"{BaseApi}/{userId}");
+                $"{UsersApi}/{userId}");
         }
         catch (Exception ex)
         {
@@ -91,11 +91,128 @@ public partial class StytchService
         {
             return await ExecuteAsync<ExchangePrimaryFactorResponse, ExchangePrimaryFactorParameters>(HttpMethod.Put,
                 parameters,
-                $"{BaseApi}/{userId}/exchange_primary_factor");
+                $"{UsersApi}/{userId}/exchange_primary_factor");
         }
         catch (Exception ex)
         {
             return HandleException<ExchangePrimaryFactorResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteUserResponse>> DeleteUserAsync(string? userId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteUserResponse, string>(HttpMethod.Delete, "", $"{UsersApi}/{userId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteUserResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserEmail(string? emailId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/emails/{emailId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserPhoneNumber(string? phoneId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/phone_numbers/{phoneId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserWebAuthnRegistration(string? webAuthnId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/webauthn_registrations/{webAuthnId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserTotp(string? totpId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/totps/{totpId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserCryptoWallet(string? cryptoWalletId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/crypto_wallets/{cryptoWalletId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserPassword(string? passwordId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/passwords/{passwordId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserOAuthRegistration(string? oauthId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/oauth/{oauthId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
+        }
+    }
+
+
+    public async Task<StytchResult<DeleteInfoResponse>> DeleteUserBiometricRegistration(string? biometricRegistrationId)
+    {
+        try
+        {
+            return await ExecuteAsync<DeleteInfoResponse, string>(HttpMethod.Delete, "",
+                $"{UsersApi}/biometric_registrations/{biometricRegistrationId}");
+        }
+        catch (Exception ex)
+        {
+            return HandleException<DeleteInfoResponse>(ex);
         }
     }
 
