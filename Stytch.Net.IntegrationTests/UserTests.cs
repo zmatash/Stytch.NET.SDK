@@ -132,13 +132,54 @@ public class UserTests : BaseTest
     [Order(6)]
     public async Task TestExchangePrimaryFactor()
     {
+        const string newEmail = "HueHue@gmail.com";
         ExchangePrimaryFactorParameters param = new()
         {
-            EmailAddress = "HueHue@gmail.com"
+            EmailAddress = newEmail
         };
         StytchResult<ExchangePrimaryFactorResponse> result =
             await StytchService.ExchangePrimaryFactorAsync(param, TestUser.UserId);
 
-        Assert.That(result.Payload?.User?.Emails?[0].EmailValue, Is.EqualTo("HueHue@gmail.com"));
+        Assert.That(result.Payload?.User?.Emails?[0].EmailValue, Is.EqualTo(newEmail));
+        TestUser.Email = newEmail;
+    }
+
+    [Test]
+    [Order(7)]
+    public async Task TestDeleteUser()
+    {
+        StytchResult<DeleteUserResponse> result = await StytchService.DeleteUserAsync(TestUser.UserId);
+        Assert.That(result.StatusCode, Is.EqualTo(200));
+    }
+
+    [Test]
+    [Order(8)]
+    public async Task TestDeleteUserEmail()
+    {
+        StytchResult<CreateUserResponse> userResult = await StytchService.CreateUserAsync(new CreateUserParameters
+        {
+            Email = "DeleteUserEmail@gmail.com"
+        });
+
+        string? id = userResult.Payload?.EmailId;
+
+        StytchResult<DeleteInfoResponse> result = await StytchService.DeleteUserEmail(id);
+        Assert.That(result.ApiErrorInfo?.ErrorType, Is.EqualTo("cannot_delete_last_primary_factor"));
+    }
+
+    [Test]
+    [Order(9)]
+    public async Task TestDeleteUserPhone()
+    {
+        StytchResult<CreateUserResponse> userResult = await StytchService.CreateUserAsync(new CreateUserParameters
+        {
+            PhoneNumberValue = "+10000000000"
+        });
+
+        string? id = userResult.Payload?.PhoneId;
+
+        StytchResult<DeleteInfoResponse> result = await StytchService.DeleteUserPhoneNumber(id);
+        Assert.That(result.ApiErrorInfo, Is.Not.EqualTo(null));
+        Assert.That(result.ApiErrorInfo?.ErrorType, Is.EqualTo("cannot_delete_last_primary_factor"));
     }
 }
