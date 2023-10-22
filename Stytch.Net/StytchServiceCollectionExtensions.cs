@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Stytch.Net.StytchService.Service;
+using Stytch.Net.Services.MagicLinks;
+using Stytch.Net.Services.Users;
 
 namespace Stytch.Net;
 
@@ -9,7 +10,8 @@ public static class StytchServiceCollectionExtensions
         Action<StytchConfiguration> configure)
     {
         services.Configure(configure);
-        services.AddTransient<IStytchService, StytchService.Service.StytchService>();
+        services.AddTransient<IStytchUserService, StytchUserService>();
+        services.AddTransient<IStytchMagicLinkService, StytchMagicLinkService>();
         return services;
     }
 }

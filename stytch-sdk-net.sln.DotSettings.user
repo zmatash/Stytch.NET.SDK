@@ -2,10 +2,15 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3b473850_002D1839_002D4de0_002Dbba1_002D799321966f42/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::B974B77B-4442-4538-A935-E32110411902::net8.0::Stytch.Net.IntegrationTests.UserTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B974B77B-4442-4538-A935-E32110411902::net8.0::Stytch.Net.IntegrationTests.UsersTests&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;Project Location="G:\Projects\dotNetLibraries\stytch-sdk-net\Stytch.Net.UnitTests" Presentation="&amp;lt;Stytch.Net.UnitTests&amp;gt;" /&gt;&#xD;
   &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=86bc1b9b_002D948d_002D4bc8_002D8806_002D11305e52ab5b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UsersTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B974B77B-4442-4538-A935-E32110411902::net8.0::Stytch.Net.IntegrationTests.UsersTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	
