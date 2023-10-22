@@ -8,11 +8,11 @@ public class TestUser
     public string FirstName { get; set; } = GenerateRandomName();
     public string MiddleName { get; set; } = GenerateRandomName();
     public string LastName { get; set; } = GenerateRandomName();
-    public string? UserId { get; set; }
-
+    public string PhoneNumber { get; set; } = GenerateRandomPhoneNumber();
 
     private static string GenerateRandomEmail()
     {
+        // ReSharper disable once StringLiteralTypo
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         string randomString = HelperFuncs.RandomStringGen(chars, 7);
 
@@ -21,17 +21,26 @@ public class TestUser
 
     private static string GenerateRandomName()
     {
+        // ReSharper disable once StringLiteralTypo
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         string randomString = HelperFuncs.RandomStringGen(chars, 7);
 
         return new string(randomString);
     }
 
-    public static string GenerateRandomPassword(int length)
+    private static string GenerateRandomPhoneNumber()
     {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*/";
+        const string chars = "0123456789";
+        string randomString = HelperFuncs.RandomStringGen(chars, 10);
+        return $"+{randomString}";
+    }
+
+    // ReSharper disable once CommentTypo
+    /*public static string GenerateRandomPassword(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&#1#";
         string randomString = HelperFuncs.RandomStringGen(chars, 10);
 
         return new string(randomString);
-    }
+    }*/
 }

@@ -1,18 +1,19 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Stytch.Net.IntegrationTests.Resources.Data;
+using Stytch.Net.IntegrationTests.Resources.Data.Factories;
 using Stytch.Net.IntegrationTests.Resources.Utility;
+using Stytch.Net.Services.MagicLinks;
 using Stytch.Net.Services.Users;
 
 namespace Stytch.Net.IntegrationTests.Resources;
 
 public abstract class BaseTest
 {
-    protected TestUser TestUser = new();
-    protected TestUser TestUser2 = new();
     private IServiceProvider ServiceProvider { get; set; } = null!;
-    protected IStytchUserService StytchUserService { get; private set; } = null!;
+    protected IStytchUserService UserService { get; private set; } = null!;
+    protected IStytchMagicLinkService MagicLinkService { get; private set; } = null!;
     private ApiFuncs ApiTool { get; set; } = null!;
+    protected TestUserFactory UserFactory { get; set; } = null!;
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -39,13 +40,19 @@ public abstract class BaseTest
 
         ServiceProvider = services.BuildServiceProvider();
 
+        // Helper classes
         ApiTool = new ApiFuncs(projectId, secret, new HttpClient());
-        StytchUserService = ServiceProvider.GetRequiredService<IStytchUserService>();
+        UserFactory = new TestUserFactory();
+
+
+        UserService = ServiceProvider.GetRequiredService<IStytchUserService>();
+        MagicLinkService = ServiceProvider.GetRequiredService<IStytchMagicLinkService>();
     }
 
-    [OneTimeTearDown]
-    public async Task OneTimeTeardown()
+    [TearDown]
+    public async Task TearDown()
     {
         await ApiTool.DeleteAllIds();
+        UserFactory.ClearUsers();
     }
 }

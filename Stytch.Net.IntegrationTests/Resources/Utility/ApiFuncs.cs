@@ -7,29 +7,21 @@ namespace Stytch.Net.IntegrationTests.Resources.Utility;
 
 public class ApiFuncs
 {
+    private readonly string _auth;
     private readonly HttpClient _httpClient;
-    private readonly string _projectId;
-    private readonly string _secret;
+
 
     public ApiFuncs(string projectId, string secret, HttpClient httpClient)
     {
-        _projectId = projectId;
-        _secret = secret;
         _httpClient = httpClient;
+        _auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{projectId}:{secret}"));
     }
-
 
     public async Task DeleteAllIds()
     {
         HttpRequestMessage request = new(HttpMethod.Post, "https://test.stytch.com/v1/users/search");
-
-        string auth = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_projectId}:{_secret}"));
-        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", auth);
-
+        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", _auth);
         request.Content = new StringContent("", Encoding.UTF8, "application/json");
-
-        _httpClient.Timeout = TimeSpan.FromSeconds(10); // Set timeout
-
         HttpResponseMessage response = await _httpClient.SendAsync(request);
 
         string content = await response.Content.ReadAsStringAsync();
@@ -46,7 +38,7 @@ public class ApiFuncs
         {
             string url = $"https://test.stytch.com/v1/users/{id}";
             HttpRequestMessage newRequest = new(HttpMethod.Delete, url);
-            newRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            newRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", _auth);
             tasks.Add(_httpClient.SendAsync(newRequest));
         }
 
