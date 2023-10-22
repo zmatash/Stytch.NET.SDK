@@ -15,6 +15,10 @@ public interface IOperandValue
 {
 }
 
+/// <summary>
+///     Use like this: new Operand.EmailAddress {FilterValue = new[] {testUser.Email}}
+///     Or similar.
+/// </summary>
 public class Operand
 {
     public class CreatedAtBetweenValue : IOperandValue
@@ -41,13 +45,13 @@ public class Operand
         [JsonProperty("filter_value")] public string?[] FilterValue { get; set; }
     }
 
-    public class FullNameFuzzyValue
+    public class FullNameFuzzyValue : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "full_name_fuzzy";
         [JsonProperty("filter_value")] public string? FilterValue { get; set; }
     }
 
-    public class Status
+    public class Status : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "status";
 
@@ -56,7 +60,7 @@ public class Operand
         public StatusEnum FilterValue { get; set; }
     }
 
-    public class PhoneNumberValue
+    public class PhoneNumberValue : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "phone_number";
 
@@ -85,109 +89,109 @@ public class Operand
         }
     }
 
-    public class PhoneNumberFuzzy
+    public class PhoneNumberFuzzy : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "phone_number_fuzzy";
         [JsonProperty("filter_value")] public string? FilterValue { get; set; }
     }
 
-    public class PhoneId
+    public class PhoneId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "phone_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class PhoneVerified
+    public class PhoneVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "phone_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class EmailAddress
+    public class EmailAddress : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "email_address";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class EmailAddressFuzzy
+    public class EmailAddressFuzzy : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "email_address_fuzzy";
         [JsonProperty("filter_value")] public string? FilterValue { get; set; }
     }
 
-    public class EmailId
+    public class EmailId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "email_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class EmailVerified
+    public class EmailVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "email_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class OAuthProvider
+    public class OAuthProvider : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "oauth_provider";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class WebAuthnRegistrationId
+    public class WebAuthnRegistrationId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "webauthn_registration_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class WebAuthnRegistrationVerified
+    public class WebAuthnRegistrationVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "webauthn_registration_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class BiometricRegistrationId
+    public class BiometricRegistrationId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "biometric_registration_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class BiometricRegistrationVerified
+    public class BiometricRegistrationVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "biometric_registration_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class TotpId
+    public class TotpId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "totp_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class TotpIdVerified
+    public class TotpIdVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "totp_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class CryptoWalletId
+    public class CryptoWalletId : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "crypto_wallet_id";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class CryptoWalletAddress
+    public class CryptoWalletAddress : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "crypto_wallet_address";
         [JsonProperty("filter_value")] public string[]? FilterValue { get; set; }
     }
 
-    public class CryptoWalletVerified
+    public class CryptoWalletVerified : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "crypto_wallet_verified";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }
     }
 
-    public class PasswordExists
+    public class PasswordExists : IOperandValue
     {
         [JsonProperty("filter_name")] private const string FilterName = "password_exists";
         [JsonProperty("filter_value")] public bool FilterValue { get; set; }

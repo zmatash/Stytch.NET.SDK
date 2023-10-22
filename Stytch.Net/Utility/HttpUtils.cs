@@ -8,9 +8,9 @@ using Stytch.Net.Services;
 
 namespace Stytch.Net.Utility;
 
-public static class HttpUtils
+internal static class HttpUtils
 {
-    public static HttpRequestMessage CreateRequest<T>(HttpMethod method, string url, T body,
+    internal static HttpRequestMessage CreateRequest<T>(HttpMethod method, string url, T body,
         StytchConfiguration config)
     {
         HttpRequestMessage request = new(method, url);
@@ -24,7 +24,7 @@ public static class HttpUtils
         return request;
     }
 
-    public static Result<TSuccess> CreateResult<TSuccess>(HttpResponseMessage response, string json)
+    internal static Result<TSuccess> CreateResult<TSuccess>(HttpResponseMessage response, string json)
         where TSuccess : class, IStytchResponse
     {
         // Status_code and requestId are assigned to root of Result object.

@@ -26,6 +26,7 @@ public abstract class BaseStytchService
         HttpRequestMessage request = HttpUtils.CreateRequest(method, url, parameters, Config);
         HttpResponseMessage response = await HttpClient.SendAsync(request).ConfigureAwait(false);
         string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
         return HttpUtils.CreateResult<T>(response, json);
     }
 

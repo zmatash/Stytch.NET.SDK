@@ -5,15 +5,15 @@ namespace Stytch.Net.Common.Models;
 
 public record Phone
 {
-    private string? _phoneNumber;
+    private string? _number;
 
     [JsonProperty("phone_id")] public string? PhoneId { get; set; }
     [JsonProperty("verified")] public bool Verified { get; set; }
 
     [JsonProperty("phone_number")]
-    public string? PhoneNumber
+    public string? Number
     {
-        get => _phoneNumber;
+        get => _number;
         set
         {
             if (value != null)
@@ -21,7 +21,7 @@ public record Phone
                 string? formattedNumber = PhoneNumberValidator.FormatPhoneNumber(value);
                 if (!PhoneNumberValidator.IsValidPhoneNumberFormat(formattedNumber))
                     throw new ArgumentException("Invalid phone number format. Must be in E.164 format.");
-                _phoneNumber = formattedNumber;
+                _number = formattedNumber;
             }
         }
     }
