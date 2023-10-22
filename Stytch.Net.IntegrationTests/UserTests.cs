@@ -1,10 +1,10 @@
 using System.Data;
-using Stytch.Net.Common;
+using Stytch.Net.Common.Models;
+using Stytch.Net.Common.Types;
 using Stytch.Net.IntegrationTests.Resources;
 using Stytch.Net.IntegrationTests.Resources.Data;
-using Stytch.Net.Models;
-using Stytch.Net.StytchService.Models.Parameters;
-using Stytch.Net.StytchService.Models.Responses;
+using Stytch.Net.Services.Users.Models.Parameters;
+using Stytch.Net.Services.Users.Models.Responses;
 
 namespace Stytch.Net.IntegrationTests;
 
@@ -17,7 +17,7 @@ public class UserTests : BaseTest
     [Order(1)]
     public async Task TestCreateUser()
     {
-        StytchResult<CreateUserResponse> result = await StytchService.CreateUserAsync(new CreateUserParameters
+        Result<CreateResponse> result = await StytchUserService.CreateAsync(new CreateParameters
         {
             Email = TestUser.Email,
             Name = new Name
@@ -57,7 +57,7 @@ public class UserTests : BaseTest
             throw new NoNullAllowedException(
                 "TestUser does not have ID assigned, something went wrong with TestCreateUser.");
 
-        StytchResult<SearchUsersResponse> result = await StytchService.SearchUsersAsync(new SearchUsersParameters
+        Result<SearchResponse> result = await StytchUserService.SearchAsync(new SearchParameters
             {
                 Query = new Query
                 {
@@ -88,9 +88,9 @@ public class UserTests : BaseTest
     [Order(3)]
     public async Task TestSearchUsersPaginated()
     {
-        await StytchService.CreateUserAsync(new CreateUserParameters {Email = TestUser2.Email});
-        List<StytchResult<SearchUsersResponse>> result = await StytchService.SearchUsersPaginatedAsync(
-            new SearchUsersParameters
+        await StytchUserService.CreateAsync(new CreateParameters {Email = TestUser2.Email});
+        List<Result<SearchResponse>> result = await StytchUserService.SearchPaginatedAsync(
+            new SearchParameters
             {
                 Limit = 1
             });
@@ -102,7 +102,7 @@ public class UserTests : BaseTest
     [Order(4)]
     public async Task TestGetUser()
     {
-        StytchResult<GetUserResponse> result = await StytchService.GetUserAsync(TestUser.UserId!);
+        Result<GetResponse> result = await StytchUserService.GetAsync(TestUser.UserId!);
         Assert.That(result.Payload?.UserId, Is.EqualTo(TestUser.UserId));
     }
 
@@ -110,7 +110,7 @@ public class UserTests : BaseTest
     [Order(5)]
     public async Task TestUpdateUser()
     {
-        UpdateUserParameters param = new()
+        UpdateParameters param = new()
         {
             Name = new Name
             {
@@ -119,7 +119,7 @@ public class UserTests : BaseTest
                 LastName = "Smith"
             }
         };
-        StytchResult<UpdateUserResponse> result = await StytchService.UpdateUserAsync(param, TestUser.UserId);
+        Result<UpdateResponse> result = await StytchUserService.UpdateAsync(param, TestUser.UserId);
 
         Name? newName = result.Payload?.User?.Name;
 
@@ -137,8 +137,8 @@ public class UserTests : BaseTest
         {
             EmailAddress = newEmail
         };
-        StytchResult<ExchangePrimaryFactorResponse> result =
-            await StytchService.ExchangePrimaryFactorAsync(param, TestUser.UserId);
+        Result<ExchangePrimaryFactorResponse> result =
+            await StytchUserService.ExchangePrimaryFactorAsync(param, TestUser.UserId);
 
         Assert.That(result.Payload?.User?.Emails?[0].EmailValue, Is.EqualTo(newEmail));
         TestUser.Email = newEmail;
@@ -148,7 +148,7 @@ public class UserTests : BaseTest
     [Order(7)]
     public async Task TestDeleteUser()
     {
-        StytchResult<DeleteUserResponse> result = await StytchService.DeleteUserAsync(TestUser.UserId);
+        Result<DeleteResponse> result = await StytchUserService.DeleteAsync(TestUser.UserId);
         Assert.That(result.StatusCode, Is.EqualTo(200));
     }
 
@@ -156,14 +156,14 @@ public class UserTests : BaseTest
     [Order(8)]
     public async Task TestDeleteUserEmail()
     {
-        StytchResult<CreateUserResponse> userResult = await StytchService.CreateUserAsync(new CreateUserParameters
+        Result<CreateResponse> userResult = await StytchUserService.CreateAsync(new CreateParameters
         {
-            Email = "DeleteUserEmail@gmail.com"
+            Email = "DeleteEmail@gmail.com"
         });
 
         string? id = userResult.Payload?.EmailId;
 
-        StytchResult<DeleteInfoResponse> result = await StytchService.DeleteUserEmail(id);
+        Result<DeleteInfoResponse> result = await StytchUserService.DeleteEmail(id);
         Assert.That(result.ApiErrorInfo?.ErrorType, Is.EqualTo("cannot_delete_last_primary_factor"));
     }
 
@@ -171,14 +171,14 @@ public class UserTests : BaseTest
     [Order(9)]
     public async Task TestDeleteUserPhone()
     {
-        StytchResult<CreateUserResponse> userResult = await StytchService.CreateUserAsync(new CreateUserParameters
+        Result<CreateResponse> userResult = await StytchUserService.CreateAsync(new CreateParameters
         {
             PhoneNumberValue = "+10000000000"
         });
 
         string? id = userResult.Payload?.PhoneId;
 
-        StytchResult<DeleteInfoResponse> result = await StytchService.DeleteUserPhoneNumber(id);
+        Result<DeleteInfoResponse> result = await StytchUserService.DeletePhoneNumber(id);
         Assert.That(result.ApiErrorInfo, Is.Not.EqualTo(null));
         Assert.That(result.ApiErrorInfo?.ErrorType, Is.EqualTo("cannot_delete_last_primary_factor"));
     }

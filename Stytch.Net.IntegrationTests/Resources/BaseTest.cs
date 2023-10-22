@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stytch.Net.IntegrationTests.Resources.Data;
 using Stytch.Net.IntegrationTests.Resources.Utility;
-using Stytch.Net.StytchService.Service;
+using Stytch.Net.Services.Users;
 
 namespace Stytch.Net.IntegrationTests.Resources;
 
@@ -11,7 +11,7 @@ public abstract class BaseTest
     protected TestUser TestUser = new();
     protected TestUser TestUser2 = new();
     private IServiceProvider ServiceProvider { get; set; } = null!;
-    protected IStytchService StytchService { get; private set; } = null!;
+    protected IStytchUserService StytchUserService { get; private set; } = null!;
     private ApiFuncs ApiTool { get; set; } = null!;
 
     [OneTimeSetUp]
@@ -40,7 +40,7 @@ public abstract class BaseTest
         ServiceProvider = services.BuildServiceProvider();
 
         ApiTool = new ApiFuncs(projectId, secret, new HttpClient());
-        StytchService = ServiceProvider.GetRequiredService<IStytchService>();
+        StytchUserService = ServiceProvider.GetRequiredService<IStytchUserService>();
     }
 
     [OneTimeTearDown]

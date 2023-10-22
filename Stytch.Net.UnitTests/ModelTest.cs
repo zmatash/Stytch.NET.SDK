@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Stytch.Net.Models;
+using Stytch.Net.Common.Models;
 using Stytch.Net.UnitTests.Resources;
 
 namespace Stytch.Net.UnitTests;
