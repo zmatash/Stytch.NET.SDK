@@ -31,7 +31,7 @@ public class TestUser
     private static string GenerateRandomPhoneNumber()
     {
         const string chars = "0123456789";
-        string randomString = HelperFuncs.RandomStringGen(chars, 10);
+        string randomString = HelperFuncs.RandomStringGen(chars, 8);
         return $"+{randomString}";
     }
 

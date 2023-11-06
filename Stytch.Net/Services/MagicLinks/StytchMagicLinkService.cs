@@ -15,61 +15,59 @@ public class StytchMagicLinkService : BaseStytchService, IStytchMagicLinkService
     {
     }
 
-    public async Task<Result<SendMagicLinkUserAndEmailResponse>> SendMagicLinkEmailAsync(
-        SendMagicLinkEmailParameters parameters)
+    public async Task<Result<SendEmailResponse>> SendEmailAsync(SendEmailParameters parameters)
     {
         try
         {
-            return await ExecuteAsync<SendMagicLinkUserAndEmailResponse, SendMagicLinkEmailParameters>(HttpMethod.Post,
+            return await ExecuteAsync<SendEmailResponse, SendEmailParameters>(HttpMethod.Post,
                 parameters,
                 $"{Endpoint}/send");
         }
         catch (Exception ex)
         {
-            return HandleException<SendMagicLinkUserAndEmailResponse>(ex);
+            return HandleException<SendEmailResponse>(ex);
         }
     }
 
-    public async Task<Result<LoginOrCreateUserUserAndEmailResponse>> LoginOrCreateUserEmailAsync(
-        LoginOrCreateUserEmailParameters parameters)
+    public async Task<Result<LoginOrCreateUserResponse>> LoginOrCreateUserAsync(
+        LoginOrCreateUserParameters parameters)
     {
         try
         {
-            return await ExecuteAsync<LoginOrCreateUserUserAndEmailResponse, LoginOrCreateUserEmailParameters>(
+            return await ExecuteAsync<LoginOrCreateUserResponse, LoginOrCreateUserParameters>(
                 HttpMethod
                     .Post, parameters, $"{Endpoint}/login_or_create");
         }
         catch (Exception ex)
         {
-            return HandleException<LoginOrCreateUserUserAndEmailResponse>(ex);
+            return HandleException<LoginOrCreateUserResponse>(ex);
         }
     }
 
-    public async Task<Result<InviteByUserAndEmailResponse>> InviteByEmailAsync(InviteByEmailParameters parameters)
+    public async Task<Result<InviteResponse>> InviteAsync(InviteParameters parameters)
     {
         try
         {
-            return await ExecuteAsync<InviteByUserAndEmailResponse, InviteByEmailParameters>(HttpMethod.Post,
+            return await ExecuteAsync<InviteResponse, InviteParameters>(HttpMethod.Post,
                 parameters,
                 $"{Endpoint}/invite");
         }
         catch (Exception ex)
         {
-            return HandleException<InviteByUserAndEmailResponse>(ex);
+            return HandleException<InviteResponse>(ex);
         }
     }
 
-    public async Task<Result<RevokePendingInviteResponse>> RevokePendingInviteAsync(
-        RevokePendingInviteParameters parameters)
+    public async Task<Result<RevokeResponse>> RevokeInviteAsync(RevokeInviteParameters parameters)
     {
         try
         {
-            return await ExecuteAsync<RevokePendingInviteResponse, RevokePendingInviteParameters>(HttpMethod.Post,
+            return await ExecuteAsync<RevokeResponse, RevokeInviteParameters>(HttpMethod.Post,
                 parameters, $"{Endpoint}/revoke_invite");
         }
         catch (Exception ex)
         {
-            return HandleException<RevokePendingInviteResponse>(ex);
+            return HandleException<RevokeResponse>(ex);
         }
     }
 }

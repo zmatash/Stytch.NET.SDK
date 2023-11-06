@@ -1,6 +1,6 @@
 using Stytch.Net.Common.Models;
 
-namespace Stytch.Net.UnitTests;
+namespace Stytch.Net.UnitTests.ModelTests;
 
 public class PhoneNumberTests
 {

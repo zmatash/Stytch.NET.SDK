@@ -5,7 +5,7 @@ using Stytch.Net.Common.Types.Enums;
 
 namespace Stytch.Net.Services.MagicLinks.Models.Parameters;
 
-public record InviteByEmailParameters
+public record InviteParameters
 {
     [JsonProperty("email")] public string Email { get; set; } = null!;
 

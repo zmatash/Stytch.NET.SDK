@@ -9,6 +9,7 @@ namespace Stytch.Net.IntegrationTests.Resources;
 
 public abstract class BaseTest
 {
+    public const string SandboxEmail = "sandbox@stytch.com";
     private IServiceProvider ServiceProvider { get; set; } = null!;
     protected IStytchUserService UserService { get; private set; } = null!;
     protected IStytchMagicLinkService MagicLinkService { get; private set; } = null!;
